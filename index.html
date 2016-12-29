@@ -10,14 +10,15 @@
     </head>
     <body>
         <h1>Timer</h1>
-        <div class="timer"><span class="mm">00</span>:<span class="ss">00</span>.<span class="ms">000</span></div>
+        <div class="timer"><span class="hh">00</span>:<span class="mm">00</span>:<span class="ss">00</span>.<span class="ms">000</span></div>
         <div id="wrapper">
             <div id="startStop" class="start">START</div>
             <div class="stop">STOP</div>
         </div>
         
         <script>
-            //variables for the minutes, seconds and milliseconds
+            //variables for the hours, minutes, seconds and milliseconds
+            var hour = 0;
             var minute = 0;
             var second = 0;
             var millisecond = 0;
@@ -30,8 +31,15 @@
                     if ((second + 1) === 60) {
                         second = 0;
                         $(".ss").html(("0" + second).slice(-2));
-                        minute = minute + 1;
-                        $(".mm").html(("0" + minute).slice(-2));
+                        if ((minute + 1) === 60) {
+                            minute = 0;
+                            $(".mm").html(("0" + minute).slice(-2));
+                            hour = hour + 1;
+                            $(".hh").html(("0" + hour).slice(-2));
+                        } else {
+                            minute = minute + 1;
+                            $(".mm").html(("0" + minute).slice(-2));                            
+                        }
                     } else {
                         second = second + 1;
                         $(".ss").html(("0" + second).slice(-2));
@@ -68,9 +76,11 @@
                 millisecond = 0;
                 second = 0;
                 minute = 0;
+                hour = 0;
                 $(".ms").html(("00" + millisecond).slice(-3));
                 $(".ss").html(("0" + second).slice(-2));
                 $(".mm").html(("0" + minute).slice(-2));
+                $(".hh").html(("0" + hour).slice(-2));
                 $("#startStop").html("START");
                 $("#startStop").removeClass("pause");
                 $("#startStop").addClass("start");
