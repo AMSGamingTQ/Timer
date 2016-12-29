@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Timer</title>
+        <link href="stylesheet.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Unica+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet"> 
+    </head>
+    <body>
+        <h1>Timer</h1>
+        <div class="timer"><span class="mm">00</span>:<span class="ss">00</span>.<span class="ms">000</span></div>
+        <div id="wrapper">
+            <div id="startStop" class="start">START</div>
+            <div class="stop">STOP</div>
+        </div>
+        
+        <script>
+            //variables for the minutes, seconds and milliseconds
+            var minute = 0;
+            var second = 0;
+            var millisecond = 0;
+            
+            //function to make the timing all happen!
+            function timing() {
+                if ((millisecond + 10) === 1000) {
+                    millisecond = 0;
+                    $(".ms").html(("00" + millisecond).slice(-3));
+                    if ((second + 1) === 60) {
+                        second = 0;
+                        $(".ss").html(("0" + second).slice(-2));
+                        minute = minute + 1;
+                        $(".mm").html(("0" + minute).slice(-2));
+                    } else {
+                        second = second + 1;
+                        $(".ss").html(("0" + second).slice(-2));
+                    }
+                } else {
+                    millisecond = millisecond + 10;
+                    $(".ms").html(("00" + millisecond).slice(-3));
+                }                
+            }
+            
+            
+            //set the interval for timing
+            function timer() {
+                interval = setInterval(timing, 10);
+            }
+            
+            
+            $("#startStop").click(function() {
+                if (document.getElementById("startStop").className === "start") {
+                    timer();
+                    $(this).html("PAUSE");
+                    $(this).removeClass("start");
+                    $(this).addClass("pause");
+                } else {
+                    $(this).html("START");
+                    $(this).removeClass("pause");
+                    $(this).addClass("start");
+                    clearInterval(interval);
+                }
+            })
+            
+            $(".stop").click(function() {
+                clearInterval(interval);
+                millisecond = 0;
+                second = 0;
+                minute = 0;
+                $(".ms").html(("00" + millisecond).slice(-3));
+                $(".ss").html(("0" + second).slice(-2));
+                $(".mm").html(("0" + minute).slice(-2));
+                $("#startStop").html("START");
+                $("#startStop").removeClass("pause");
+                $("#startStop").addClass("start");
+                clearInterval(interval);
+            })
+        </script>
+    </body>
+</html>
